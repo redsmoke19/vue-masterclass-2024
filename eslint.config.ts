@@ -11,14 +11,18 @@ export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
+    extends: [
+      pluginVue.configs['flat/strongly-recommended'],
+      vueTsConfigs.recommended,
+      skipFormatting
+    ],
+    rules: {
+      'vue/multi-word-component-names': 'off'
+    }
   },
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
-  },
-
-  pluginVue.configs['flat/strongly-recommended'],
-  vueTsConfigs.recommended,
-  skipFormatting,
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**']
+  }
 )
