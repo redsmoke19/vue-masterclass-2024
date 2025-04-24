@@ -10,10 +10,10 @@ pageData.value.title = 'Tasks'
 const tasks = ref<TasksWithProjects | null>(null)
 
 const getTasks = async () => {
-  const { data, error } = await tasksWithProjectsQuery
+  const { data, error, status } = await tasksWithProjectsQuery
 
   if (error) {
-    console.error(error)
+    useErrorStore().setError({ error, customCode: status })
   }
 
   tasks.value = data

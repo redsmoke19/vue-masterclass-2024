@@ -8,9 +8,11 @@ const project = ref<Project | null>(null)
 const pageStore = storeToRefs(usePageStore())
 
 const getProject = async () => {
-  const { data, error } = await projectQuery(route.params.slug as string)
+  const { data, error, status } = await projectQuery(route.params.slug as string)
 
-  if (error) console.log(error)
+  if (error) {
+    useErrorStore().setError({ error, customCode: status })
+  }
   project.value = data
 }
 

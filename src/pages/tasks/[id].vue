@@ -8,9 +8,11 @@ const task = ref<Task | null>(null)
 const pageState = storeToRefs(usePageStore())
 
 const getTask = async () => {
-  const { data, error } = await taskQuery(route.params.id as string)
+  const { data, error, status } = await taskQuery(route.params.id as string)
 
-  if (error) console.log(error)
+  if (error) {
+    useErrorStore().setError({ error, customCode: status })
+  }
   task.value = data
 }
 
