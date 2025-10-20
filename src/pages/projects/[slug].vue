@@ -1,20 +1,10 @@
 <script setup lang="ts">
-import { projectQuery } from '@/utils/supaQueries'
-import type { Project } from '@/utils/supaQueries'
+const { slug } = useRoute('/projects/[slug]').params
 
-const route = useRoute('/projects/[slug]')
-
-const project = ref<Project | null>(null)
 const pageStore = storeToRefs(usePageStore())
-
-const getProject = async () => {
-  const { data, error, status } = await projectQuery(route.params.slug as string)
-
-  if (error) {
-    useErrorStore().setError({ error, customCode: status })
-  }
-  project.value = data
-}
+const projectsStore = useProjectsStore()
+const { project } = storeToRefs(projectsStore)
+const { getSingleProject } = projectsStore
 
 watch(
   () => project.value?.name,
@@ -23,14 +13,16 @@ watch(
   }
 )
 
-await getProject()
+await getSingleProject(slug)
 </script>
 
 <template>
   <Table v-if="project">
     <TableRow>
       <TableHead> Name </TableHead>
-      <TableCell> {{ project.name }} </TableCell>
+      <TableCell>
+        <AppInPlaceEditText v-model="project.name" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>
@@ -121,5 +113,3 @@ h2 {
   @apply overflow-hidden overflow-y-auto rounded-md bg-slate-900 h-80;
 }
 </style>
-
-<style scoped></style>

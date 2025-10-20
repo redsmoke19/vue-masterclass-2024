@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useErrorStore } from './stores/error'
-
 const errorStore = useErrorStore()
+
 onErrorCaptured((error) => {
   useErrorStore().setError({ error })
+})
+
+onMounted(() => {
+  useAuthStore().trackAuthChanges()
 })
 </script>
 

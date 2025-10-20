@@ -11,13 +11,10 @@ export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
-    extends: [
-      pluginVue.configs['flat/strongly-recommended'],
-      vueTsConfigs.recommended,
-      skipFormatting
-    ],
+    extends: [pluginVue.configs['flat/essential'], vueTsConfigs.recommended, skipFormatting],
     rules: {
-      'vue/multi-word-component-names': 'off'
+      'vue/multi-word-component-names': 'off',
+      'no-unused-vars': 'off'
     }
   },
 

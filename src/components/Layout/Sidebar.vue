@@ -30,10 +30,20 @@ const profileLinks = [
   },
   {
     title: 'Sign out',
-    to: '/signout',
     icon: 'lucide:log-out'
   }
 ]
+
+const router = useRouter()
+
+const executeAction = async (linkTitle: string) => {
+  if (linkTitle === 'Sign out') {
+    const { logout } = await import('@/utils/supaAuth')
+    const isLoggedOut = await logout()
+
+    if (isLoggedOut) router.push('/login')
+  }
+}
 </script>
 
 <template>
@@ -56,7 +66,7 @@ const profileLinks = [
       </div>
 
       <div class="border-y text-center bg-background py-3">
-        <SidebarLinks :links="profileLinks" />
+        <SidebarLinks :links="profileLinks" @action-click="executeAction" />
       </div>
     </nav>
   </aside>

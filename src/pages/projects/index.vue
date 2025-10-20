@@ -2,31 +2,26 @@
 import { usePageStore } from '@/stores/page'
 import { storeToRefs } from 'pinia'
 import { columns } from '@/utils/tableColumns/projectsColumns'
-import { projectsQuery } from '@/utils/supaQueries'
-import type { Projects } from '@/utils/supaQueries'
+import { useProjectsStore } from '@/stores/loader/projects'
 
 const { pageData } = storeToRefs(usePageStore())
+const projectsLoader = useProjectsStore()
+const { projects } = storeToRefs(projectsLoader)
+const { getProjects } = projectsLoader
+
 pageData.value.title = 'Projects'
 
-const projects = ref<Projects | null>(null)
-
-const getProjects = async () => {
-  const { data, error, status } = await projectsQuery
-
-  if (error) {
-    useErrorStore().setError({ error, customCode: status })
-  }
-
-  projects.value = data
-  return data
-}
+const { getGroupedCollabs, groupedCollabs } = useCollabs()
 
 await getProjects()
+
+getGroupedCollabs(projects.value ?? [])
+const columnsWithCollabs = columns(groupedCollabs)
 </script>
 
 <template>
   <h1>Projects page</h1>
-  <DataTable v-if="projects" :columns="columns" :data="projects" />
+  <DataTable v-if="projects" :columns="columnsWithCollabs" :data="projects" />
 </template>
 
 <style scoped></style>
