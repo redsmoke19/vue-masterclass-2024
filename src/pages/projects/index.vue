@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { usePageStore } from '@/stores/page'
-import { storeToRefs } from 'pinia'
 import { columns } from '@/utils/tableColumns/projectsColumns'
-import { useProjectsStore } from '@/stores/loader/projects'
 
 const { pageData } = storeToRefs(usePageStore())
+pageData.value.title = 'Projects'
+
 const projectsLoader = useProjectsStore()
 const { projects } = storeToRefs(projectsLoader)
 const { getProjects } = projectsLoader
-
-pageData.value.title = 'Projects'
 
 const { getGroupedCollabs, groupedCollabs } = useCollabs()
 
@@ -17,6 +15,14 @@ await getProjects()
 
 getGroupedCollabs(projects.value ?? [])
 const columnsWithCollabs = columns(groupedCollabs)
+
+useMeta({
+  title: 'Projects | Pulse',
+  description: {
+    name: 'Pulse projects',
+    content: 'Pulse bla bla blaa'
+  }
+})
 </script>
 
 <template>

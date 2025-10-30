@@ -4,15 +4,13 @@ interface AppInPlaceEditTextEmits {
 }
 
 const emits = defineEmits<AppInPlaceEditTextEmits>()
-const value = defineModel<string | null>()
+const value = defineModel<string>()
 </script>
 
 <template>
-  <input
-    type="text"
+  <textarea
     class="w-full !p-1 bg-transparent border-none outline-none focus:bg-gray-800 focus:rounded-md transition-all duration-300"
     v-model="value"
     @blur="emits('commit')"
-    @keyup.enter="($event.target as HTMLInputElement).blur()"
   />
 </template>

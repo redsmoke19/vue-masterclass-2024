@@ -3,7 +3,7 @@ export default {
   darkMode: ['class'],
   safelist: ['dark'],
   prefix: '',
-  content: ['./index.html', './src/**/*.{ts,js,vue}'],
+  content: ['./index.html', './src/**/*.{ts,js,vue}', './formkit.theme.ts'],
   theme: {
     extend: {
       borderRadius: {
